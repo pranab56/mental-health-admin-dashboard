@@ -107,18 +107,18 @@ export default function AppointmentsPage() {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl flex flex-wrap items-center p-3 gap-4 shadow-sm"
+        className="bg-white rounded-xl flex flex-col sm:flex-row items-stretch sm:items-center p-3 gap-4 shadow-sm"
       >
-        <div className="relative flex-1 min-w-[300px]">
+        <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             placeholder="Search Client or Provider name"
-            className="pl-11 h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#6BB9BA]"
+            className="pl-11 h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#6BB9BA] w-full"
           />
         </div>
 
         <Select defaultValue="all">
-          <SelectTrigger className="w-[180px] h-12 bg-white py-6 border-[#E5E7EB] text-gray-600 rounded-xl mr-4">
+          <SelectTrigger className="w-full sm:w-[180px] h-12 bg-white py-6 border-[#E5E7EB] text-gray-600 rounded-xl">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -137,52 +137,54 @@ export default function AppointmentsPage() {
         transition={{ delay: 0.1 }}
         className="bg-white rounded-xl shadow-sm overflow-hidden"
       >
-        <Table>
-          <TableHeader className="bg-[#E9F2F2] border-none">
-            <TableRow className="border-none hover:bg-transparent">
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Appointment ID</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Date & Time</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Client</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Provider</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Status</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {appointments.map((apt, index) => (
-              <TableRow key={index} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                <TableCell className="py-5 px-6 font-bold text-gray-800">{apt.id}</TableCell>
-                <TableCell className="py-5 px-6">
-                  <div className="flex flex-col">
-                    <span className="font-medium text-gray-800">{apt.date}</span>
-                    <span className="text-sm text-gray-500 font-medium">{apt.time}</span>
-                  </div>
-                </TableCell>
-                <TableCell className="py-5 px-6 font-medium text-gray-800">{apt.client}</TableCell>
-                <TableCell className="py-5 px-6 font-medium text-gray-800">{apt.provider}</TableCell>
-                <TableCell className="py-5 px-6 text-center">
-                  <Badge
-                    className={cn(
-                      "px-4 py-1.5 rounded-full font-medium text-[12px] border-none shadow-none",
-                      apt.status === "Upcoming"
-                        ? "bg-[#E9F7F7] text-[#6BB9BA] hover:bg-[#E9F7F7]"
-                        : apt.status === "Completed"
-                          ? "bg-[#F3F4F6] text-gray-500 hover:bg-[#F3F4F6]"
-                          : "bg-[#FFE9E9] text-[#FF5858] hover:bg-[#FFE9E9]"
-                    )}
-                  >
-                    {apt.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="py-5 px-6 text-right">
-                  <Button onClick={() => router.push(`/appointments/${index + 1}`)} variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full h-8 w-8">
-                    <Eye className="w-5 h-5 text-gray-600" />
-                  </Button>
-                </TableCell>
+        <div className="overflow-x-auto">
+          <Table className="min-w-[800px] lg:min-w-full">
+            <TableHeader className="bg-[#E9F2F2] border-none">
+              <TableRow className="border-none hover:bg-transparent">
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Appointment ID</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Date & Time</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Client</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Provider</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Status</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-right">Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {appointments.map((apt, index) => (
+                <TableRow key={index} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                  <TableCell className="py-5 px-6 font-bold text-gray-800">{apt.id}</TableCell>
+                  <TableCell className="py-5 px-6">
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-800">{apt.date}</span>
+                      <span className="text-sm text-gray-500 font-medium">{apt.time}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-5 px-6 font-medium text-gray-800">{apt.client}</TableCell>
+                  <TableCell className="py-5 px-6 font-medium text-gray-800">{apt.provider}</TableCell>
+                  <TableCell className="py-5 px-6 text-center">
+                    <Badge
+                      className={cn(
+                        "px-4 py-1.5 rounded-full font-medium text-[12px] border-none shadow-none",
+                        apt.status === "Upcoming"
+                          ? "bg-[#E9F7F7] text-[#6BB9BA] hover:bg-[#E9F7F7]"
+                          : apt.status === "Completed"
+                            ? "bg-[#F3F4F6] text-gray-500 hover:bg-[#F3F4F6]"
+                            : "bg-[#FFE9E9] text-[#FF5858] hover:bg-[#FFE9E9]"
+                      )}
+                    >
+                      {apt.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-5 px-6 text-right">
+                    <Button onClick={() => router.push(`/appointments/${index + 1}`)} variant="ghost" size="icon" className="hover:bg-gray-100 rounded-full h-8 w-8">
+                      <Eye className="w-5 h-5 text-gray-600" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </motion.div>
 
       {/* Pagination */}

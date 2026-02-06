@@ -100,18 +100,18 @@ export default function ProvidersPage() {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl flex flex-wrap items-center p-3 gap-4 shadow-sm"
+        className="bg-white rounded-xl flex flex-col sm:flex-row items-stretch sm:items-center p-3 gap-4 shadow-sm"
       >
-        <div className="relative flex-1 min-w-[300px]">
+        <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             placeholder="Search by name, email or ID ..."
-            className="pl-11 h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#6BB9BA]"
+            className="pl-11 h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#6BB9BA] w-full"
           />
         </div>
 
         <Select defaultValue="join-date">
-          <SelectTrigger className="w-[180px] h-12 bg-white py-6 border-[#E5E7EB] text-gray-600 rounded-xl mr-4">
+          <SelectTrigger className="w-full sm:w-[180px] h-12 bg-white py-6 border-[#E5E7EB] text-gray-600 rounded-xl">
             <SelectValue placeholder="Join Date" />
           </SelectTrigger>
           <SelectContent>
@@ -129,46 +129,48 @@ export default function ProvidersPage() {
         transition={{ delay: 0.1 }}
         className="bg-white rounded-xl shadow-sm overflow-hidden"
       >
-        <Table>
-          <TableHeader className="bg-[#E9F2F2] border-none">
-            <TableRow className="border-none hover:bg-transparent">
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Provider Name</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Credentials</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">License Number</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Date Applied</TableHead>
-              <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {providers.map((provider, index) => (
-              <TableRow key={index} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                <TableCell className="py-5 px-6 font-medium text-gray-800">{provider.name}</TableCell>
-                <TableCell className="py-5 px-6 text-center">
-                  <Badge
-                    className={cn(
-                      "px-6 py-1.5 rounded-full font-bold text-[11px] border-none shadow-none uppercase",
-                      provider.credentials === "LCSV"
-                        ? "bg-[#F0EDF7] text-[#9B85C4] hover:bg-[#F0EDF7]"
-                        : "bg-[#E9F7F7] text-[#6BB9BA] hover:bg-[#E9F7F7]"
-                    )}
-                  >
-                    {provider.credentials}
-                  </Badge>
-                </TableCell>
-                <TableCell className="py-5 px-6 text-center font-bold text-gray-800">{provider.licenseNumber}</TableCell>
-                <TableCell className="py-5 px-6 text-center font-medium text-gray-800">{provider.dateApplied}</TableCell>
-                <TableCell className="py-5 px-6 text-right">
-                  <Link
-                    href={`/user-management/providers/${provider.id}`}
-                    className="text-[#9B85C4] hover:text-[#826AB4] transition-colors font-medium text-sm underline decoration-[#DED6EF] underline-offset-4"
-                  >
-                    Review Application
-                  </Link>
-                </TableCell>
+        <div className="overflow-x-auto">
+          <Table className="min-w-[800px] lg:min-w-full">
+            <TableHeader className="bg-[#E9F2F2] border-none">
+              <TableRow className="border-none hover:bg-transparent">
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider">Provider Name</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Credentials</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">License Number</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-center">Date Applied</TableHead>
+                <TableHead className="py-5 px-6 font-semibold text-gray-600 text-[13px] uppercase tracking-wider text-right">Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {providers.map((provider, index) => (
+                <TableRow key={index} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                  <TableCell className="py-5 px-6 font-medium text-gray-800">{provider.name}</TableCell>
+                  <TableCell className="py-5 px-6 text-center">
+                    <Badge
+                      className={cn(
+                        "px-6 py-1.5 rounded-full font-bold text-[11px] border-none shadow-none uppercase",
+                        provider.credentials === "LCSV"
+                          ? "bg-[#F0EDF7] text-[#9B85C4] hover:bg-[#F0EDF7]"
+                          : "bg-[#E9F7F7] text-[#6BB9BA] hover:bg-[#E9F7F7]"
+                      )}
+                    >
+                      {provider.credentials}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-5 px-6 text-center font-bold text-gray-800">{provider.licenseNumber}</TableCell>
+                  <TableCell className="py-5 px-6 text-center font-medium text-gray-800">{provider.dateApplied}</TableCell>
+                  <TableCell className="py-5 px-6 text-right">
+                    <Link
+                      href={`/user-management/providers/${provider.id}`}
+                      className="text-[#9B85C4] hover:text-[#826AB4] transition-colors font-medium text-sm underline decoration-[#DED6EF] underline-offset-4"
+                    >
+                      Review Application
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </motion.div>
 
       {/* Pagination */}

@@ -87,8 +87,8 @@ export default function ProfilePage() {
         transition={{ duration: 0.3 }}
       >
         <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
-          <CardContent className="p-8 flex items-center gap-6">
-            <div className="relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-gray-100">
+          <CardContent className="p-4 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 bg-gray-100">
               {photoUrl ? (
                 <Image
                   src={photoUrl}
@@ -103,14 +103,14 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-            <div className="space-y-3">
-              <div>
+            <div className="space-y-4">
+              <div className="space-y-1">
                 <h2 className="text-lg font-bold text-gray-900">Profile Photo</h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 leading-relaxed">
                   JPG or PNG, max 2MB. A clear face photo is recommended.
                 </p>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4">
                 <Input
                   type="file"
                   ref={fileInputRef}
@@ -121,7 +121,7 @@ export default function ProfilePage() {
                 <Button
                   onClick={handleUpdatePhoto}
                   variant="secondary"
-                  className="bg-[#F3F4F6] text-gray-700 hover:bg-gray-200 border-none rounded-xl h-10 px-6 font-medium"
+                  className="w-full sm:w-auto bg-[#F3F4F6] text-gray-700 hover:bg-gray-200 border-none rounded-xl h-10 px-6 font-medium"
                 >
                   Update Photo
                 </Button>
@@ -144,13 +144,13 @@ export default function ProfilePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
       >
         <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
-          <CardHeader className="px-8 pt-8 pb-0">
+          <CardHeader className="px-6 sm:px-8 pt-6 sm:pt-8 pb-0">
             <CardTitle className="text-lg font-bold text-gray-900">
               Personal Information
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <CardContent className="p-6 sm:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">
                   Full Name
@@ -221,12 +221,12 @@ export default function ProfilePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
       >
         <Card className="border-none shadow-sm rounded-2xl overflow-hidden">
-          <CardHeader className="px-8 pt-8 pb-0">
+          <CardHeader className="px-6 sm:px-8 pt-6 sm:pt-8 pb-0">
             <CardTitle className="text-lg font-bold text-gray-900">
               Security & Password
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-8">
+          <CardContent className="p-6 sm:p-8">
             <div className="space-y-6">
               {/* Insurance Provider */}
               <div className="space-y-2">
@@ -255,7 +255,7 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 {/* Member ID */}
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-gray-700">
@@ -326,7 +326,7 @@ export default function ProfilePage() {
             <Button
               onClick={handleSave}
               disabled={loading}
-              className="bg-[#9D84B7] hover:bg-[#8B7BB5] text-white rounded-xl px-8 h-12 text-md font-medium shadow-md transition-all"
+              className="w-full sm:w-auto bg-[#9D84B7] hover:bg-[#8B7BB5] text-white rounded-xl px-8 h-12 text-md font-medium shadow-md transition-all"
             >
               {loading ? "Saving..." : "Save Changes"}
             </Button>

@@ -47,12 +47,12 @@ export default function ProviderDetailsPage() {
   return (
     <div className="space-y-6 animate-in fade-in duration-700">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-sm text-gray-400 font-medium">
+      <nav className="flex flex-wrap items-center gap-2 text-sm text-gray-400 font-medium">
         <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>
         <ChevronRight className="w-4 h-4" />
         <Link href="/user-management/providers" className="hover:text-gray-600 transition-colors">Providers</Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-[#9B85C4]">Dr. Sarah Jenkins</span>
+        <span className="text-[#9B85C4] truncate max-w-[200px] sm:max-w-none">Dr. Sarah Jenkins</span>
       </nav>
 
       {/* Profile Header Card */}
@@ -61,22 +61,22 @@ export default function ProviderDetailsPage() {
         animate={{ opacity: 1, y: 0 }}
       >
         <Card className="border-none shadow-sm overflow-hidden bg-white">
-          <CardContent className="p-8 flex items-center gap-6">
+          <CardContent className="p-4 sm:p-8 flex flex-col sm:flex-row items-center  gap-6">
             <div className="relative">
-              <Avatar className="w-32 h-32 rounded-3xl overflow-hidden border-none shadow-md">
+              <Avatar className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-none shadow-md">
                 <AvatarImage src="https://images.unsplash.com/photo-1559839734-2b71f1536783?q=80&w=2670&auto=format&fit=crop" className="object-cover" />
                 <AvatarFallback>SJ</AvatarFallback>
               </Avatar>
               <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-white rounded-full shadow-sm" />
             </div>
-            <div className="space-y-2">
-              <h1 className="text-2xl font-bold text-gray-800 tracking-tight">{providerData.name}</h1>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-gray-500">
+            <div className="space-y-2 text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">{providerData.name}</h1>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-sm font-medium text-gray-500">
                 <span>NPI: {providerData.npi}</span>
-                <span className="text-gray-300">•</span>
-                <span>Application Submitted {providerData.submittedDate}</span>
+                <span className="hidden sm:inline text-gray-300">•</span>
+                <span>Submitted {providerData.submittedDate}</span>
               </div>
-              <div className="flex items-center gap-1 text-sm font-medium text-[#6BB9BA]">
+              <div className="flex items-center justify-center sm:justify-start gap-1 text-sm font-medium text-[#6BB9BA]">
                 <MapPin className="w-4 h-4" />
                 <span>{providerData.location}</span>
               </div>
@@ -85,7 +85,7 @@ export default function ProviderDetailsPage() {
         </Card>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-24">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-24 sm:pb-32">
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
           {/* Personal Information */}
@@ -95,10 +95,10 @@ export default function ProviderDetailsPage() {
             transition={{ delay: 0.1 }}
           >
             <Card className="border-none shadow-sm bg-white h-fit">
-              <CardHeader className="pb-4 pt-8 px-8">
+              <CardHeader className="pb-4 pt-8 px-6 sm:px-8">
                 <CardTitle className="text-lg font-bold text-gray-700 tracking-tight">Personal Information</CardTitle>
               </CardHeader>
-              <CardContent className="p-8 pt-0">
+              <CardContent className="p-6 sm:p-8 pt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
                   <InfoItem label="Full Name" value={providerData.personalInfo.fullName} />
                   <InfoItem label="Email Address" value={providerData.personalInfo.email} isEmail />
@@ -116,10 +116,10 @@ export default function ProviderDetailsPage() {
             transition={{ delay: 0.2 }}
           >
             <Card className="border-none shadow-sm bg-white">
-              <CardHeader className="pb-4 pt-8 px-8">
+              <CardHeader className="pb-4 pt-8 px-6 sm:px-8">
                 <CardTitle className="text-lg font-bold text-gray-700 tracking-tight">Professional Credentials</CardTitle>
               </CardHeader>
-              <CardContent className="p-8 pt-0 space-y-8">
+              <CardContent className="p-6 sm:p-8 pt-0 space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 pb-6 border-b border-gray-50">
                   <InfoItem label="License Type" value={providerData.credentials.type} />
                   <InfoItem label="License Number" value={providerData.credentials.licenseNumber} />
@@ -142,10 +142,10 @@ export default function ProviderDetailsPage() {
           transition={{ delay: 0.3 }}
         >
           <Card className="border-none shadow-sm bg-white h-full">
-            <CardHeader className="pb-4 pt-8 px-8">
+            <CardHeader className="pb-4 pt-8 px-6 sm:px-8">
               <CardTitle className="text-lg font-bold text-gray-700 tracking-tight">Verification Documents</CardTitle>
             </CardHeader>
-            <CardContent className="p-8 pt-0 space-y-8">
+            <CardContent className="p-6 sm:p-8 pt-0 space-y-8">
               {providerData.documents.map((doc, index) => (
                 <div key={index} className="space-y-3">
                   <p className="text-sm font-medium text-gray-600">{doc.name}</p>
@@ -167,16 +167,16 @@ export default function ProviderDetailsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="fixed bottom-0 left-0 right-0 h-24 bg-white/80 backdrop-blur-md border-t border-gray-100 flex items-center justify-end px-12 gap-6 z-50 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]"
+        className="fixed bottom-0 left-0 right-0 min-h-[96px] py-4 bg-white/80 backdrop-blur-md border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center sm:justify-end px-6 sm:px-12 gap-3 sm:gap-6 z-50 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]"
       >
         <Button
           variant="outline"
-          className="h-12 px-10 rounded-xl border-[#FF5858] text-[#FF5858] font-bold hover:bg-[#FF5858] hover:text-white transition-all active:scale-[0.98]"
+          className="w-full sm:w-auto h-12 px-10 rounded-xl border-[#FF5858] text-[#FF5858] font-bold hover:bg-[#FF5858] hover:text-white transition-all active:scale-[0.98]"
         >
           Reject Application
         </Button>
         <Button
-          className="h-12 px-10 rounded-xl bg-[#9B85C4] hover:bg-[#826AB4] text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-purple-100"
+          className="w-full sm:w-auto h-12 px-10 rounded-xl bg-[#9B85C4] hover:bg-[#826AB4] text-white font-bold transition-all active:scale-[0.98] shadow-lg shadow-purple-100"
         >
           Approve Provider
         </Button>

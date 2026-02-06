@@ -118,24 +118,24 @@ export default function NotificationPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        className="flex flex-col lg:flex-row lg:items-center justify-between gap-4"
       >
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Notifications</h1>
-          <p className="text-muted-foreground mt-1">Manage and stay updated with your latest alerts.</p>
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Notifications</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Manage and stay updated with your latest alerts.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <Button
             variant="outline"
             onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))}
-            className="rounded-full px-6 border-[#6BB9BA] text-[#6BB9BA] hover:bg-[#6BB9BA]/10 shadow-sm"
+            className="w-full sm:w-auto rounded-xl sm:rounded-full px-6 border-[#6BB9BA] text-[#6BB9BA] hover:bg-[#6BB9BA]/10 shadow-sm transition-all"
           >
             Mark all as read
           </Button>
           <Button
             variant="destructive"
             onClick={clearAll}
-            className="rounded-full px-6 bg-[#FF5858] hover:bg-[#ff4545] shadow-md border-none"
+            className="w-full sm:w-auto rounded-xl sm:rounded-full px-6 bg-[#FF5858] hover:bg-[#ff4545] shadow-md border-none transition-all"
           >
             Clear All
           </Button>
@@ -153,18 +153,18 @@ export default function NotificationPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0 overflow-hidden">
-          <div className="relative overflow-hidden w-full">
-            <Table className="relative overflow-hidden">
+          <div className="relative overflow-x-auto CustomScrollbar">
+            <Table className="min-w-[500px] md:min-w-full">
               <TableHeader className="bg-gray-50/50">
                 <TableRow className="hover:bg-transparent border-gray-100">
-                  <TableHead className="w-[80px] text-center">Status</TableHead>
-                  <TableHead className="min-w-[200px]">Notification</TableHead>
+                  <TableHead className="w-[60px] sm:w-[80px] text-center">Status</TableHead>
+                  <TableHead className="min-w-[200px] py-4">Notification</TableHead>
                   <TableHead className="hidden md:table-cell">Type</TableHead>
                   <TableHead className="hidden sm:table-cell text-right">Time</TableHead>
-                  <TableHead className="w-[100px] text-right pr-6">Action</TableHead>
+                  <TableHead className="w-[80px] sm:w-[100px] text-right pr-6">Action</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="relative overflow-hidden">
+              <TableBody>
                 <AnimatePresence initial={false}>
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
@@ -184,7 +184,7 @@ export default function NotificationPage() {
                           layout: { duration: 0.3 }
                         }}
                         className={cn(
-                          "group transition-colors border-gray-50",
+                          "group transition-colors border-gray-50 cursor-pointer",
                           !notification.read ? "bg-blue-50/30 font-medium" : "bg-transparent"
                         )}
                         onClick={() => markAsRead(notification.id)}
@@ -195,13 +195,15 @@ export default function NotificationPage() {
                           </div>
                         </TableCell>
                         <TableCell className="py-4">
-                          <div className="flex flex-col">
-                            <span className="text-sm font-semibold text-gray-900">{notification.title}</span>
-                            <span className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{notification.message}</span>
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-sm font-semibold text-gray-900 leading-tight">{notification.title}</span>
+                            <span className="text-[12px] text-muted-foreground line-clamp-2 sm:line-clamp-1">{notification.message}</span>
+                            {/* Mobile only time display */}
+                            <span className="sm:hidden text-[10px] text-muted-foreground mt-1">{notification.time}</span>
                           </div>
                         </TableCell>
                         <TableCell className="hidden md:table-cell py-4">
-                          <Badge className={cn("capitalize font-normal rounded-full px-3 py-0.5 border", getTypeStyles(notification.type))}>
+                          <Badge className={cn("capitalize font-normal rounded-full px-3 py-0.5 border text-[11px]", getTypeStyles(notification.type))}>
                             {notification.type}
                           </Badge>
                         </TableCell>
@@ -217,7 +219,7 @@ export default function NotificationPage() {
                                 e.stopPropagation();
                                 deleteNotification(notification.id);
                               }}
-                              className="w-9 h-9 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl"
+                              className="w-8 h-8 sm:w-9 sm:h-9 text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl"
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>

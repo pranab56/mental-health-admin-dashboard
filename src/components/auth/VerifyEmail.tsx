@@ -63,16 +63,16 @@ export default function VerifyEmail() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-white">
-        <div className="w-full max-w-[480px] p-10 bg-white rounded-3xl shadow-sm lg:shadow-xl">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-white">
+        <div className="w-full max-w-[480px] p-6 sm:p-10 bg-white rounded-3xl shadow-none sm:shadow-xl border border-gray-100 sm:border-none">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Verify OTP</h2>
-            <p className="text-gray-500">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Verify OTP</h2>
+            <p className="text-sm sm:text-base text-gray-500">
               We have sent a verification code to <span className="font-semibold text-gray-700">{email || "your email"}</span>.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8 flex flex-col items-center">
+          <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 flex flex-col items-center">
 
             <div className="w-full flex justify-center">
               <InputOTP
@@ -80,13 +80,13 @@ export default function VerifyEmail() {
                 value={otp}
                 onChange={(value) => setOtp(value)}
               >
-                <InputOTPGroup className="gap-2">
-                  <InputOTPSlot index={0} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
-                  <InputOTPSlot index={1} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
-                  <InputOTPSlot index={2} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
-                  <InputOTPSlot index={3} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
-                  <InputOTPSlot index={4} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
-                  <InputOTPSlot index={5} className="w-12 h-12 border-gray-300 rounded-lg text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                <InputOTPGroup className="gap-1 sm:gap-2">
+                  <InputOTPSlot index={0} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                  <InputOTPSlot index={1} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                  <InputOTPSlot index={2} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                  <InputOTPSlot index={3} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                  <InputOTPSlot index={4} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
+                  <InputOTPSlot index={5} className="w-10 h-10 sm:w-12 sm:h-12 border-gray-300 rounded-lg text-base sm:text-lg bg-[#F9FAFB] focus:ring-1 focus:ring-[#9B85C1]" />
                 </InputOTPGroup>
               </InputOTP>
             </div>

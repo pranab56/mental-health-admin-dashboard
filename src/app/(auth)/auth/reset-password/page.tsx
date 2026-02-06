@@ -71,16 +71,16 @@ function ResetPasswordContent() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-white">
-        <div className="w-full max-w-[480px] p-10 bg-white rounded-3xl shadow-sm lg:shadow-xl">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-white">
+        <div className="w-full max-w-[480px] p-6 sm:p-10 bg-white rounded-3xl shadow-none sm:shadow-xl border border-gray-100 sm:border-none">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Set a new password</h2>
-            <p className="text-gray-500">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Set a new password</h2>
+            <p className="text-sm sm:text-base text-gray-500">
               Your new password must be different to previously used password.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-semibold text-gray-700">New Password</label>
               <div className="relative">
