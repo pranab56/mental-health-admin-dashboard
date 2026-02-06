@@ -239,7 +239,7 @@ export default function NotificationPage() {
                             <Bell className="w-12 h-12 text-gray-300" />
                           </div>
                           <p className="text-lg font-medium text-gray-400">No notifications found</p>
-                          <p className="text-sm">You're all caught up!</p>
+                          <p className="text-sm">You&apos;re all caught up!</p>
                         </motion.div>
                       </TableCell>
                     </TableRow>

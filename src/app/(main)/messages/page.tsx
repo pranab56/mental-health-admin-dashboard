@@ -15,6 +15,7 @@ import {
   Search,
   Send
 } from "lucide-react"
+import Image from 'next/image'
 import { useEffect, useRef, useState } from "react"
 
 // --- Types ---
@@ -291,7 +292,7 @@ export default function MessagesPage() {
               ))}
               {filteredChats.length === 0 && (
                 <div className="text-center py-10">
-                  <p className="text-slate-400 text-sm italic font-medium">No chats found for "{searchQuery}"</p>
+                  <p className="text-slate-400 text-sm italic font-medium">No chats found for &quot;{searchQuery}&quot;</p>
                 </div>
               )}
             </div>
@@ -375,7 +376,7 @@ export default function MessagesPage() {
                     )}>
                       {msg.image && (
                         <div className="rounded-xl overflow-hidden border border-slate-100/50 shadow-sm">
-                          <img src={msg.image} alt="Sent image" className="max-h-40 md:max-h-60 object-cover w-full" />
+                          <Image src={msg.image} alt="Sent image" height={1000} width={1000} className="max-h-40 md:max-h-60 object-cover w-full" />
                         </div>
                       )}
                       {msg.content && <span>{msg.content}</span>}
@@ -398,7 +399,7 @@ export default function MessagesPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="relative h-20 w-20 md:h-24 md:w-24 rounded-xl overflow-hidden border-2 border-white shadow-lg group"
               >
-                <img src={selectedImage} alt="Preview" className="h-full w-full object-cover" />
+                <Image src={selectedImage} alt="Preview" height={1000} width={1000} className="h-full w-full object-cover" />
                 <button
                   type="button"
                   onClick={() => setSelectedImage(null)}

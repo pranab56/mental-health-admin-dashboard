@@ -20,6 +20,7 @@ function ResetPasswordContent() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  console.log(searchParams)
 
   const validate = () => {
     const newErrors: { password?: string; confirmPassword?: string } = {};
