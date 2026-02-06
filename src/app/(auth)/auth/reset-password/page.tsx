@@ -2,7 +2,9 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { ArrowLeft, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent, Suspense, useState } from 'react';
@@ -14,26 +16,34 @@ function ResetPasswordContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  // We can grab the token if needed: const token = searchParams.get('token');
+
+  const validate = () => {
+    const newErrors: { password?: string; confirmPassword?: string } = {};
+
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!password || !confirmPassword) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+    if (!validate()) {
       return;
     }
 
@@ -53,49 +63,15 @@ function ResetPasswordContent() {
 
   return (
     <div className="flex min-h-screen bg-white font-sans">
-      {/* Left Panel - Feature Showcase */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#9B85C1] relative flex-col justify-between p-12 overflow-hidden items-center justify-center">
-        {/* Background Decorative Elements */}
-        <div className="relative z-10 max-w-lg mb-10 text-center">
-          <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
-            How would you like to<br />use Mynder Therapy?
-          </h1>
-          <p className="text-white/90 text-lg">
-            Choose the path that fits you best. This helps us personalize your experience.
-          </p>
-        </div>
-
-        {/* Dashboard Screenshots Simulation/Image */}
-        <div className="relative z-10 w-full max-w-xl h-[400px] mt-8">
-          <div className="relative w-full h-full">
-            {/* Main Dashboard Preview (Center) */}
-            <div className="absolute top-0 left-10 w-[90%] h-full bg-white rounded-t-xl shadow-2xl p-2 transform rotate-[-5deg] opacity-90 border-[6px] border-b-0 border-[#d0d0d0]/20">
-              <div className="w-full h-full bg-gray-50 rounded-t-lg overflow-hidden">
-                {/* Header skeleton */}
-                <div className="h-12 bg-white border-b flex items-center px-4 gap-2">
-                  <div className="w-20 h-3 bg-gray-200 rounded-full"></div>
-                </div>
-                {/* Body skeleton */}
-                <div className="p-4 grid grid-cols-3 gap-4">
-                  <div className="h-24 bg-gray-200 rounded-lg col-span-2"></div>
-                  <div className="h-24 bg-gray-200 rounded-lg"></div>
-                  <div className="h-40 bg-gray-200 rounded-lg col-span-1"></div>
-                  <div className="h-40 bg-gray-200 rounded-lg col-span-2"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* Secondary Dashboard Preview (Behind/Left) */}
-            <div className="absolute top-10 -left-4 w-[80%] h-full bg-[#f0f9ff] rounded-t-xl shadow-xl transform rotate-[-15deg] -z-10 opacity-70 border-[6px] border-[#d0d0d0]/20"></div>
-
-            {/* Third Dashboard Preview (Behind/Right) */}
-            <div className="absolute top-20 left-20 w-[80%] h-full bg-[#fdf2f8] rounded-t-xl shadow-xl transform rotate-[5deg] -z-20 opacity-60 border-[6px] border-[#d0d0d0]/20"></div>
-          </div>
+      {/* Left Panel - Feature Showcase (Match Login) */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#F9FAFB] relative flex-col justify-between p-12 overflow-hidden items-center justify-center">
+        <div className='w-10/12 h-12/12 relative'>
+          <Image src="/images/auth/image.png" alt="ResetPassword Background" fill className="" />
         </div>
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-[#F9FAFB]">
+      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-white">
         <div className="w-full max-w-[480px] p-10 bg-white rounded-3xl shadow-sm lg:shadow-xl">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Set a new password</h2>
@@ -112,17 +88,28 @@ function ResetPasswordContent() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Create new password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#9B85C1] pr-10"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errors.password) setErrors({ ...errors, password: undefined });
+                  }}
+                  className={cn(
+                    "h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 transition-all pr-10",
+                    errors.password ? "focus-visible:ring-red-500 bg-red-50/50" : "focus-visible:ring-[#9B85C1]"
+                  )}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-xs font-medium text-red-500 mt-1 ml-1 animate-in fade-in slide-in-from-top-1">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -132,17 +119,28 @@ function ResetPasswordContent() {
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm your password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#9B85C1] pr-10"
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: undefined });
+                  }}
+                  className={cn(
+                    "h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 transition-all pr-10",
+                    errors.confirmPassword ? "focus-visible:ring-red-500 bg-red-50/50" : "focus-visible:ring-[#9B85C1]"
+                  )}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
                 >
                   {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
+              {errors.confirmPassword && (
+                <p className="text-xs font-medium text-red-500 mt-1 ml-1 animate-in fade-in slide-in-from-top-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
 
             <Button

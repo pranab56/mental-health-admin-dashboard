@@ -12,8 +12,8 @@ const geistSans = Geist({
 
 
 export const metadata: Metadata = {
-  title: "OptimusHS Dashboard",
-  description: "OptimusHS Dashboard for Future Pharmacy",
+  title: "Mental Health Admin Dashboard",
+  description: "Mental Health Admin Dashboard for Future Pharmacy",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },

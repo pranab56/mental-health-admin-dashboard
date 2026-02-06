@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,14 +15,33 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
   const router = useRouter();
+
+  const validate = () => {
+    const newErrors: { email?: string; password?: string } = {};
+
+    if (!email) {
+      newErrors.email = 'Email address is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      toast.error('Please fill in all fields');
+    if (!validate()) {
       return;
     }
 
@@ -38,77 +58,23 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen bg-white font-sans">
       {/* Left Panel - Feature Showcase */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#9B85C1] relative flex-col justify-between p-12 overflow-hidden items-center justify-center">
+      <div className="hidden lg:flex lg:w-1/2 bg-[#F9FAFB] relative flex-col justify-between p-12 overflow-hidden items-center justify-center">
         {/* Background Decorative Elements could go here */}
-
-        <div className="relative z-10 max-w-lg mb-10 text-center">
-          <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
-            How would you like to<br />use Mynder Therapy?
-          </h1>
-          <p className="text-white/90 text-lg">
-            Choose the path that fits you best. This helps us personalize your experience.
-          </p>
+        <div className='w-10/12 h-12/12 relative'>
+          <Image src="/images/auth/image.png" alt="Login Background" fill className="" />
         </div>
 
-        {/* Dashboard Screenshots Simulation/Image */}
-        <div className="relative z-10 w-full max-w-xl h-[400px] mt-8">
-          {/* 
-               We are using a placeholder or the uploaded image idea here.
-               Since I don't have the exact scattered screens asset, I will structure it 
-               to look like the example or use a div that suggests it.
-               Ideally, we would use an <img> tag with the asset provided.
-            */}
-          <div className="relative w-full h-full">
-            {/* Main Dashboard Preview (Center) */}
-            <div className="absolute top-0 left-10 w-[90%] h-full bg-white rounded-t-xl shadow-2xl p-2 transform rotate-[-5deg] opacity-90 border-[6px] border-b-0 border-[#d0d0d0]/20">
-              <div className="w-full h-full bg-gray-50 rounded-t-lg overflow-hidden">
-                {/* Header skeleton */}
-                <div className="h-12 bg-white border-b flex items-center px-4 gap-2">
-                  <div className="w-20 h-3 bg-gray-200 rounded-full"></div>
-                </div>
-                {/* Body skeleton */}
-                <div className="p-4 grid grid-cols-3 gap-4">
-                  <div className="h-24 bg-gray-200 rounded-lg col-span-2"></div>
-                  <div className="h-24 bg-gray-200 rounded-lg"></div>
-                  <div className="h-40 bg-gray-200 rounded-lg col-span-1"></div>
-                  <div className="h-40 bg-gray-200 rounded-lg col-span-2"></div>
-                </div>
-              </div>
-            </div>
 
-            {/* Secondary Dashboard Preview (Behind/Left) */}
-            <div className="absolute top-10 -left-4 w-[80%] h-full bg-[#f0f9ff] rounded-t-xl shadow-xl transform rotate-[-15deg] -z-10 opacity-70 border-[6px] border-[#d0d0d0]/20"></div>
 
-            {/* Third Dashboard Preview (Behind/Right) */}
-            <div className="absolute top-20 left-20 w-[80%] h-full bg-[#fdf2f8] rounded-t-xl shadow-xl transform rotate-[5deg] -z-20 opacity-60 border-[6px] border-[#d0d0d0]/20"></div>
-          </div>
-        </div>
+
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-[#F9FAFB]">
+      <div className="flex-1 flex items-center justify-center p-8 bg-white lg:bg-white">
         <div className="w-full max-w-[480px] p-10 bg-white rounded-3xl shadow-sm lg:shadow-xl">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back!</h2>
             <p className="text-gray-500">Please enter your details to login</p>
-          </div>
-
-          {/* Social Login */}
-          <button className="w-full h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 transition-colors mb-8 shadow-sm">
-            <div className="w-6 h-6 relative">
-              <Image src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" fill />
-            </div>
-            <span className="font-medium text-gray-700">Log in with Google</span>
-          </button>
-
-          {/* Separator */}
-          <div className="relative mb-8">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-4 text-gray-500">or login with email</span>
-            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -118,9 +84,20 @@ export default function LoginPage() {
                 type="email"
                 placeholder="name@company.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#9B85C1]"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email) setErrors({ ...errors, email: undefined });
+                }}
+                className={cn(
+                  "h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 transition-all",
+                  errors.email ? "focus-visible:ring-red-500 bg-red-50/50" : "focus-visible:ring-[#9B85C1]"
+                )}
               />
+              {errors.email && (
+                <p className="text-xs font-medium text-red-500 mt-1 ml-1 animate-in fade-in slide-in-from-top-1">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -130,17 +107,28 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 focus-visible:ring-[#9B85C1] pr-10"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errors.password) setErrors({ ...errors, password: undefined });
+                  }}
+                  className={cn(
+                    "h-12 bg-[#F9FAFB] border-none rounded-xl focus-visible:ring-1 transition-all pr-10",
+                    errors.password ? "focus-visible:ring-red-500 bg-red-50/50" : "focus-visible:ring-[#9B85C1]"
+                  )}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-xs font-medium text-red-500 mt-1 ml-1 animate-in fade-in slide-in-from-top-1">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
             <div className="flex justify-end">

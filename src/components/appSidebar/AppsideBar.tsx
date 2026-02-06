@@ -13,6 +13,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -27,6 +28,7 @@ import {
   User,
   Users
 } from "lucide-react";
+import Image from 'next/image';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -65,6 +67,8 @@ export default function AppSideBar() {
   const pathname = usePathname();
   const router = useRouter();
   const [openItems, setOpenItems] = useState<string[]>([]);
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
 
   const menuItems = clientMenuItems;
@@ -90,23 +94,17 @@ export default function AppSideBar() {
   };
 
   return (
-    <Sidebar className="border-none max-w-[280px]">
-      <SidebarContent className="bg-[#6BB9BA] text-white flex flex-col h-full font-sans">
-
-        {/* LOGO Header */}
-        <SidebarHeader className="p-8 pb-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative flex items-center justify-center">
-              {/* Icon placeholder matching the image - Two figures/Users */}
-              <Users className="w-10 h-10 text-[#6d4cba]" />
-              {/* The icon in the image is purple-ish, fitting the 'secondary' theme color likely */}
-              <div className="absolute -top-1 -right-1">
-                <MessageSquare className="w-4 h-4 text-white fill-white stroke-none" style={{ transform: 'scaleX(-1)' }} />
-              </div>
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              Mynder Therapy
-            </span>
+    <Sidebar collapsible="icon" className="border-none">
+      <SidebarContent className="bg-[#6BB9BA] text-white flex flex-col h-full font-sans overflow-hidden">
+        <SidebarHeader className={cn("p-8 pb-4 transition-all duration-200", isCollapsed && "p-4")}>
+          <Link href="/" className="flex items-center justify-center">
+            <Image
+              src={isCollapsed ? "/icons/logo2.png" : "/icons/logo.png"}
+              height={1000}
+              width={1000}
+              alt='logo'
+              className={cn("transition-all duration-200", isCollapsed ? "w-full h-full" : "w-full h-full")}
+            />
           </Link>
         </SidebarHeader>
         {/* Navigation */}
@@ -123,22 +121,24 @@ export default function AppSideBar() {
                     <SidebarMenuButton
                       asChild={!hasChildren}
                       onClick={hasChildren ? () => toggleItem(item.name) : undefined}
+                      tooltip={item.name}
                       className={cn(
                         "h-14 px-8 w-full rounded-none transition-all duration-200 hover:bg-white/10 cursor-pointer",
+                        "group-data-[collapsible=icon]:!h-14 group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:justify-center",
                         active
                           ? "bg-[#9B85C1] hover:bg-[#9B85C1] text-white font-medium relative after:absolute after:left-0 after:top-0 after:h-full after:w-1 after:bg-white/50"
                           : "text-white/90"
                       )}
                     >
                       {hasChildren ? (
-                        <div className="flex items-center gap-4 text-base w-full">
-                          <item.icon className="w-5 h-5" strokeWidth={1.5} />
-                          <span>{item.name}</span>
+                        <div className={cn("flex items-center gap-4 text-base w-full", isCollapsed && "justify-center gap-0")}>
+                          <item.icon className="w-5 h-5 shrink-0" strokeWidth={1.5} />
+                          {!isCollapsed && <span>{item.name}</span>}
                         </div>
                       ) : (
-                        <Link href={item.path} className="flex items-center gap-4 text-base">
-                          <item.icon className={`w-5 h-5 ${active ? "text-white" : "text-white"}`} strokeWidth={1.5} />
-                          <span>{item.name}</span>
+                        <Link href={item.path} className={cn("flex items-center gap-4 text-base", isCollapsed && "justify-center gap-0")}>
+                          <item.icon className={cn("w-5 h-5 shrink-0", active ? "text-white" : "text-white")} strokeWidth={1.5} />
+                          {!isCollapsed && <span>{item.name}</span>}
                         </Link>
                       )}
                     </SidebarMenuButton>
@@ -183,19 +183,23 @@ export default function AppSideBar() {
         </SidebarGroup>
 
         {/* Footer / Logout */}
-        <SidebarFooter className="p-8 pb-10">
+        <SidebarFooter className={cn("p-8 pb-10 transition-all duration-200", isCollapsed && "p-1 pb-10")}>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleLogout}
-            className="w-full h-12 bg-[#FF5858] cursor-pointer hover:bg-[#ff4545] text-white rounded-xl font-medium flex items-center justify-center gap-3 shadow-lg transition-colors"
+            className={cn(
+              "w-full h-12 bg-[#FF5858] cursor-pointer hover:bg-[#ff4545] text-white rounded-xl font-medium flex items-center justify-center gap-3 shadow-lg transition-colors overflow-hidden whitespace-nowrap",
+              isCollapsed && "rounded-full w-10 h-10 p-0 mx-auto"
+            )}
+            title={isCollapsed ? "Logout" : undefined}
           >
-            <LogOut className="w-5 h-5 rotate-180" />
-            <span>Logout</span>
+            <LogOut className={cn("w-5 h-5 rotate-180 shrink-0", isCollapsed && "mr-0")} />
+            {!isCollapsed && <span>Logout</span>}
           </motion.button>
         </SidebarFooter>
 
       </SidebarContent>
-    </Sidebar>
+    </Sidebar >
   );
 }

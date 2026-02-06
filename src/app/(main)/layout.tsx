@@ -6,8 +6,8 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Optimus HS Dashboard",
-  description: "OptimusHS Dashboard for Future Pharmacy",
+  title: "Mental Health Admin Dashboard",
+  description: "Mental Health Admin Dashboard for Future Pharmacy",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
